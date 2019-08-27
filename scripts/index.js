@@ -2,12 +2,13 @@
 
 'use strict';
 
-$(document).ready(function(){
+  $(document).ready(function() {
+  
+    api.getItems(items => {
+      items.forEach(item => {
+        store.addItem(item);
+      });
+      bookmarkList.renderBookmarkList();
+    });
     bookmarkList.handleBookmarkList();
-    bookmarkList.renderBookmarkList();
-
-    api.getItems().then(items => {
-        items.forEach(item => store.addItem(item))
-        bookmarkList.renderBookmarkList();  
-        });      
-});
+  });

@@ -1,29 +1,61 @@
 'use strict';
 
 const api = (function() {
-    const bASE_URL = 'https://thinkful-list-api.herokuapp.com/preet';
+    const BASE_URL = 'https://thinkful-list-api.herokuapp.com/preet';
 
-    const listApiFetch = function(...args){
-        let error = false;
+    const listApiFetch = function(...args) {
+        let error;
         return fetch(...args)
           .then(res => {
-              if (!res.ok) {
-                  error = true;
+            if (!res.ok) {
+              error = { code: res.status };
+              if (!res.headers.get('content-type').includes('json')) {
+                error.message = res.statusText;
+                return Promise.reject(error);
               }
-              return res.json();
+            }
+            return res.json(); 
           })
           .then(data => {
-              if (error) {
-                  return Promise.reject(data.message);
-              }
-              return data; 
-          })
-          .catch(error => {
-              //console.log(error);
+            if (error) {
+              error.message = data.message;
               return Promise.reject(error);
-            });
-    }
+            } 
+            return data;
+          })
+          .catch(error => console.error(`${error.code} ${error.message}`));
+      }
+    
+    //CRUD functions
 
-    //CRUD next
+    function getItems(){
+        return listApiFetch(`${BASE_URL}/items`);
+        //Promise.resolve('A successful response!');
+      }
+      
+    function createItem(name) {
+        //console.log(name);
+        const newItem = JSON.stringify({name});
+        //console.log(newItem);
+        return listApiFetch(`${BASE_URL}/items`, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: newItem
+        });
+      }
+    
+    function deleteItem(id){
+        return listApiFetch(`${BASE_URL}/items/${id}`, {
+          method: 'DELETE',
+          headers: {'Content-Type':'application/json'}
+        });
+      }
+    
+    return {
+        getItems,
+        createItem,
+        deleteItem
+      };
 
 }());
+
