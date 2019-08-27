@@ -5,7 +5,7 @@ const store = (function() {
 
   const addItem = function(item) {
     this.items.push(item);
-    //this.items.push(Object.assign(item, {expanded: false}));
+    
   };
 
   const findById = function(id) {
