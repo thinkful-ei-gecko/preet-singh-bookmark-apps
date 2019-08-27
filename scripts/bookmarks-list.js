@@ -80,7 +80,7 @@ const bookmarkList = (function() {
               </div>
             </div>
             <div>
-              <button class="add-button-submit js-add-button-submit" type="submit" aria-label="click to add bookmark">Create</button>
+              <button class="add-button-submit js-add-button-submit" type="submit" aria-label="click to add bookmark">Add</button>
             </div>
           </form>
         </li>`;
@@ -116,9 +116,9 @@ const bookmarkList = (function() {
         const title = event.currentTarget.title.value;
         const url = event.currentTarget.url.value;
         const desc = event.currentTarget.desc.value;
-        const rate = event.currentTarget.rate.value;
+        const rating = event.currentTarget.rate.value;
   
-        api.createItem(title, url, desc, rate, function(response) {
+        api.createItem(title, url, desc, rating, function(response) {
           store.addItem(response);
           store.adding = false;
           renderBookmarkList();
@@ -172,23 +172,14 @@ const bookmarkList = (function() {
   
     function renderBookmarkList() {
       $('.js-bookmark-list').empty();
-     
       if(store.adding) {
         const bookmarkForm = generateCreateBookmarkView();
         $('.js-bookmark-list').prepend(bookmarkForm);
       }
-  
       handleAddBookmarkClicked();
-  
       handleDeleteBookmarkClicked();
-  
-      //get current items
       let items = store.items;
-  
-      // create element string
       const bookmarkString = generateBookmarkString(items);
-  
-      //insert html into DOM
       $('.js-bookmark-list').append(bookmarkString);
   
     }

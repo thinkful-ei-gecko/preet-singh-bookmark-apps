@@ -9,7 +9,7 @@ const store = (function() {
   };
 
   const findById = function(id) {
-    return this.items.find(item => item.id === id);
+    this.items.find(item => item.id === id);
   };
 
   const findAndDelete = function(id) {
@@ -17,9 +17,9 @@ const store = (function() {
   };
 
 
-  function filterByRating(val) {
-    this.items = this.items.filter( itm => {
-      return itm.rating >= val;
+  const filterByRating = function(val) {
+    this.items = this.items.filter( item => {
+      return item.rating >= val;
     });
   }
 
@@ -27,7 +27,6 @@ const store = (function() {
     items: [],
     adding: false,
     error: null,
-
     addItem,
     findById,
     findAndDelete, 

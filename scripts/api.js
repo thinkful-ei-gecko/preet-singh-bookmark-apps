@@ -8,7 +8,7 @@ const api = (function() {
         return fetch(...args)
           .then(res => {
             if (!res.ok) {
-              error = { code: res.status };
+              error = { code: res.status};
               if (!res.headers.get('content-type').includes('json')) {
                 error.message = res.statusText;
                 return Promise.reject(error);
@@ -29,23 +29,28 @@ const api = (function() {
     //CRUD functions
 
     function getItems(){
-        return listApiFetch(`${BASE_URL}/items`);
+        return listApiFetch(`${BASE_URL}/bookmarks`);
         //Promise.resolve('A successful response!');
       }
       
-    function createItem(name) {
-        //console.log(name);
-        const newItem = JSON.stringify({name});
+    function createItem(title, url, desc, rating) {
+        const newItem = JSON.stringify(      
+            {
+                title: title,
+                url: url,
+                desc: desc,
+                rating: rating
+          });
         //console.log(newItem);
-        return listApiFetch(`${BASE_URL}/items`, {
+        return listApiFetch(`${BASE_URL}/bookmarks`, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: newItem
+          body: newItem,
         });
       }
     
     function deleteItem(id){
-        return listApiFetch(`${BASE_URL}/items/${id}`, {
+        return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
           method: 'DELETE',
           headers: {'Content-Type':'application/json'}
         });
