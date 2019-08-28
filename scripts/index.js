@@ -4,10 +4,11 @@
 
 $(document).ready(function() {
     bookmarkList.handleBookmarkList();
-    bookmarkList.renderBookmarkList(); 
-    api.getItems(items => {
-        items.forEach(item => {
-            store.addItem(item);
+    api.getItems()
+        .then(items => {
+            items.forEach(item => {
+                store.addItem(item);
+            });
+            bookmarkList.renderBookmarkList(); 
         });
-});
 });

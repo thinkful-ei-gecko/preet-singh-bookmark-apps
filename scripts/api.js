@@ -14,6 +14,7 @@ const api = (function() {
             return res.json();
           })
           .then(data => {
+            console.log(data);
             if (error) throw new Error(data.message);
             return data;
           });
@@ -22,6 +23,7 @@ const api = (function() {
     //CRUD functions
 
     function getItems(){
+        console.log('hi');
         return listApiFetch(`${BASE_URL}/bookmarks`);
     
       }
@@ -33,13 +35,19 @@ const api = (function() {
                 url,
                 desc,
                 rating
-          });
-        //console.log(newItem);
-        return listApiFetch(`${BASE_URL}/bookmarks`, {
+            });
+        console.log(newItem);
+        return fetch(`${BASE_URL}/bookmarks`, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          data: newItem,
-        });
+          body: newItem,
+        })
+        .then(res => {
+            return res.json();
+          })
+          .catch(error => {
+              console.log(error)
+          });
       }
     
     function deleteItem(id){

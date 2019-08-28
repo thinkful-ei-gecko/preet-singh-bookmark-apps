@@ -138,11 +138,13 @@ const bookmarkList = (function() {
         const desc = event.currentTarget.desc.value;
         const rating = event.currentTarget.rate.value;
   
-        api.createItem(title, url, desc, rating, function(res) {
-          store.addItem(res);
-          store.adding = false;
-          renderBookmarkList();
-        });
+        api.createItem(title, url, desc, rating)
+            .then(function(bookmark) {
+                console.log(bookmark);
+                store.addItem(bookmark);
+                store.adding = false;
+                renderBookmarkList();
+            });
       }));
     }
   
