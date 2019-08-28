@@ -11,7 +11,6 @@ const api = (function () {
         if (!res.ok) {
           error = true;
         }
-
         return res.json();
       })
       .then(data => {
