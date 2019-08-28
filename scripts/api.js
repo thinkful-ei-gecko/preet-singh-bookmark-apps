@@ -3,49 +3,42 @@
 const api = (function() {
     const BASE_URL = 'https://thinkful-list-api.herokuapp.com/preet';
 
-    const listApiFetch = function(...args) {
-        let error;
+    const listApiFetch = function (...args) {
+        let error = false;
         return fetch(...args)
           .then(res => {
             if (!res.ok) {
-              error = { code: res.status};
-              if (!res.headers.get('content-type').includes('json')) {
-                error.message = res.statusText;
-                return Promise.reject(error);
-              }
+              error = true;
             }
-            return res.json(); 
+    
+            return res.json();
           })
           .then(data => {
-            if (error) {
-              error.message = data.message;
-              return Promise.reject(error);
-            } 
+            if (error) throw new Error(data.message);
             return data;
-          })
-          .catch(error => console.error(`${error.code} ${error.message}`));
-      }
+          });
+      };  
     
     //CRUD functions
 
     function getItems(){
         return listApiFetch(`${BASE_URL}/bookmarks`);
-        //Promise.resolve('A successful response!');
+    
       }
       
     function createItem(title, url, desc, rating) {
         const newItem = JSON.stringify(      
             {
-                title: title,
-                url: url,
-                desc: desc,
-                rating: rating
+                title,
+                url,
+                desc,
+                rating
           });
         //console.log(newItem);
         return listApiFetch(`${BASE_URL}/bookmarks`, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: newItem,
+          data: newItem,
         });
       }
     

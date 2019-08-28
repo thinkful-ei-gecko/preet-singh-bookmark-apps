@@ -4,6 +4,24 @@
 
 const bookmarkList = (function() {
 
+    //render to DOM
+
+    function renderBookmarkList() {
+        $('.js-bookmark-list').empty();
+        if(store.adding) {
+          const bookmarkForm = generateCreateBookmarkView();
+          $('.js-bookmark-list').prepend(bookmarkForm);
+        }
+        handleAddBookmarkClicked();
+        handleDeleteBookmarkClicked();
+        let items = store.items;
+        const bookmarkString = generateBookmarkString(items);
+        $('.js-bookmark-list').append(bookmarkString);
+  
+      }
+
+    //different state views  
+
     function generateBookmarkElement(item) {
       return `
       <li class="bookmark-list-items js-bookmark-list-items" data-item-id="${item.id}" aria-label="click to expand bookmark item">
@@ -87,6 +105,8 @@ const bookmarkList = (function() {
     }
   
   
+    //user interactivity
+
     function handleCreateBookmarkClicked() {
       $('#js-create-bookmark-form').on('submit', (function(event) {
         event.preventDefault();
@@ -118,8 +138,8 @@ const bookmarkList = (function() {
         const desc = event.currentTarget.desc.value;
         const rating = event.currentTarget.rate.value;
   
-        api.createItem(title, url, desc, rating, function(response) {
-          store.addItem(response);
+        api.createItem(title, url, desc, rating, function(res) {
+          store.addItem(res);
           store.adding = false;
           renderBookmarkList();
         });
@@ -170,21 +190,8 @@ const bookmarkList = (function() {
     }
   
   
-    function renderBookmarkList() {
-      $('.js-bookmark-list').empty();
-      if(store.adding) {
-        const bookmarkForm = generateCreateBookmarkView();
-        $('.js-bookmark-list').prepend(bookmarkForm);
-      }
-      handleAddBookmarkClicked();
-      handleDeleteBookmarkClicked();
-      let items = store.items;
-      const bookmarkString = generateBookmarkString(items);
-      $('.js-bookmark-list').append(bookmarkString);
-  
-    }
-  
-  
+  //bind all functions
+
     function handleBookmarkList() {
       handleExpandViewClicked();
       handleCreateBookmarkClicked();
