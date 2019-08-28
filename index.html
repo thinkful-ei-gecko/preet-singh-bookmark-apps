@@ -1,41 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title banner='header'>Singh Bookmark App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/normalize.css">
-  <link rel="stylesheet" href="styles/index.css">
-  <title>Singh Bookmark App</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="styles/index.css" />
 </head>
+
 <body>
-  <div class="container">
-    <header role="banner" aria-live="polite">
-      <h1>Bookmarks</h1>
-      <form id="js-create-bookmark-form">
-        <button aria-label="click to create a bookmark" class="header-button js-header-button" type="submit" >Create a Bookmark</button>
-      </form>
-      <form id="js-filter-bookmark-form" class="filter-bookmark-form">
-        <fieldset>
-          <legend>Filter By</legend>
-            <label for="rating-filter">
-              <select aria-label="select a rating" class="header-select js-header-select" aria-activedescendant="rating-filter">
-                <option value="1" id="rating-filter" aria-label="select star rating">Rating</option>
-                <option aria-label="select 5 star rating" value="5" id="rating-filter-5" >5 stars</option>
-                <option  aria-label="select 4 star rating" value="4" id="rating-filter-4">4 stars</option>
-                <option  aria-label="select 3 star rating" value="3" id="rating-filter-3">3 stars</option>
-                <option  aria-label="select 2 star rating" value="2" id="rating-filter-2">2 stars</option>
-                <option aria-label="select 1 star rating" value="1" id="rating-filter-1" >1 star</option>
-              </select>
-            </label>
-        </fieldset>
-      </form>
-    </header>
-    <main class="bookmark-panel js-bookmark-panel">
-      <ul class="bookmark-list js-bookmark-list" aria-live="polite">
-      </ul>
-    </main>
-  </div>
+    <div class ="container">
+        <main banner='main'>
+        <section class='add-form' banner='region'>
+            <h1 banner='header'>Singh's Bookmarks</h1>
+            <div class="error-container"></div>
+            <div class='button-section'></div>
+            <select class='dropdown-filter' aria-label="Filter">
+            <div class='options'>
+                <option value='' selected class='first-option'>Rating filter</option>
+                <option value="5" aria-label="select 5 star rating">5 stars</option>
+                <option value="4" aria-label="select 4 star rating">4 stars</option>
+                <option value="3" aria-label="select 3 star rating">3 stars</option>
+                <option value="2" aria-label="select 2 star rating">2 stars</option>
+                <option value="1" aria-label="select 1 star rating" class='last-option'>1 star</option>
+            </div>
+            </select>
+        </section>
+        <section class='bookmark-section' banner='region'>
+            <ul class='bookmark-list' aria-live="polite"></ul>
+        </section>
+        </main>
+    </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cuid/1.3.8/browser-cuid.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="scripts/api.js"></script> 

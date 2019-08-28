@@ -2,13 +2,14 @@
 
 'use strict';
 
-$(document).ready(function() {
-    bookmarkList.handleBookmarkList();
-    api.getItems()
-        .then(items => {
-            items.forEach(item => {
-                store.addItem(item);
-            });
-            bookmarkList.renderBookmarkList(); 
-        });
-});
+$(document).ready(function () {
+    bookmark.eventListener();
+  
+    api.getBookmark()
+      .then((items) => {
+        items.forEach((item) => 
+            store.addBookmark(item));
+            bookmark.render();
+        })
+      .catch(err => console.log(err.message));
+  });
