@@ -1,6 +1,6 @@
 //store//
-'use strict';
 
+'use strict';
 const store = (function () {
 
     const addBookmark = function (item) {
@@ -11,7 +11,7 @@ const store = (function () {
       return this.lists.find(item => item.id === id);
     };
   
-    const findAndUpdate = function (id, newData) { // didn't use but can be used to edit
+    const findAndUpdate = function (id, newData) { 
       const item = this.findById(id);
       Object.assign(item, newData);
     };

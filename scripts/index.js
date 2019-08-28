@@ -1,7 +1,6 @@
 //start the page, call other js files//
 
 'use strict';
-
 $(document).ready(function () {
     bookmark.eventListener();
   

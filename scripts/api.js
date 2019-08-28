@@ -1,6 +1,6 @@
-'use strict';
+//api//
 
-// eslint-disable-next-line no-unused-vars
+'use strict';
 const api = (function () {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/preet';
 
@@ -34,7 +34,6 @@ const api = (function () {
     });
   };
 
-  // Use for edit feature in extension 
   const updateBookmark = function (id, updateData) {
     const newData = JSON.stringify(updateData);
     return listApiFetch(BASE_URL + '/bookmarks/' + id, {

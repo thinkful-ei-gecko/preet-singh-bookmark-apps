@@ -1,25 +1,46 @@
 //user interactions and display renderBookmarkLists//
+
 'use strict';
 const bookmark = (function () {
+
+    function render() {
+        let bookmarks2 = [...store.lists];
+    
+        if (store.minRating) {
+          bookmarks2 = bookmarks2.filter(i => i.rating >= store.minRating);
+        }
+        const bookmarkString = generateBookMarkList(bookmarks2);
+        const form = addHelper(store);
+    
+        if (store.error) {
+          const errorMessage = generateError(store.error);
+    
+          $('.error-container').html(errorMessage);
+        } else {
+          $('.error-container').empty();
+        }
+        $('.button-section').html(form);
+        $('.bookmark-list').html(bookmarkString);
+      }
 
     // generating html for bookmarks in store
     function generateBookmark(obj) {
       if (obj.rating)
         return `
-      <li class="js-item-elem" data-id="${obj.id}">
-      <div aria-label="bookmark-title"data-id ="${obj.id}" class='bookmark-title'>${obj.title}</div>
-      ${expandedHelper(obj)}
-      <div class='star-row'>${starMaker(obj)}</div>
-      <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
-      </li>
-      `;
+        <li class="js-item-elem" data-id="${obj.id}">
+            <div aria-label="bookmark-title"data-id ="${obj.id}" class='bookmark-title'>${obj.title}</div>
+            ${expandedHelper(obj)}
+            <div class='star-row'>${starMaker(obj)}</div>
+        <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
+        </li>
+        `;
       else
         return `
         <li class="js-item-elem" data-id="${obj.id}">
-      <div aria-label="bookmark-title" data-id ="${obj.id}" class='bookmark-title'>${obj.title}</div>
-      ${expandedHelper(obj)}<br>
-      <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
-      </li>
+            <div aria-label="bookmark-title" data-id ="${obj.id}" class='bookmark-title'>${obj.title}</div>
+            ${expandedHelper(obj)}<br>
+        <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
+        </li>
         `;
     }
   
@@ -40,9 +61,7 @@ const bookmark = (function () {
         <h4>${message}</h4>
         </section>
         `;
-  
     }
-  
   
     function handleErrorExit() {
       $('.error-container').on('click', 'button', function (event) {
@@ -74,7 +93,6 @@ const bookmark = (function () {
       }
     }
   
-    
     function expandedHelper(bookmark) {
       if (bookmark.expanded) {
         return `<div class="">${bookmark.desc}</div>
@@ -95,7 +113,6 @@ const bookmark = (function () {
         return '<span class=star>★★★★</span> ';
       default:
         return '<span class=star>★★★★★</span> ';
-  
       }
     }
   
@@ -112,8 +129,7 @@ const bookmark = (function () {
         });
       });
     }
-  
-    // handle editing rating testing
+
     function handleEditRating() {
       $('.bookmark-list').on('click', '.star', function (event) {
         const id = getItemIdFromElement(event.currentTarget);
@@ -132,7 +148,6 @@ const bookmark = (function () {
       });
     }
   
-  
     function handleDelete() {
       $('.bookmark-list').on('click', 'button', function (event) {
         const id = getItemIdFromElement(event.currentTarget);
@@ -150,9 +165,6 @@ const bookmark = (function () {
       });
     }
   
-  
-    // handle drop down filter
-  
     function handleDropDown() {
       $('.dropdown-filter').on('change', function (event) {
         const rate = $(':selected').val();
@@ -161,8 +173,6 @@ const bookmark = (function () {
       });
     }
   
-  
-    // handling adding bookmark
     function handleAddBookmark() {
       $('.button-section').on('submit', 'form', function (event) {
         event.preventDefault();
@@ -181,7 +191,14 @@ const bookmark = (function () {
   
       });
     }
-  
+
+    function addButton() {
+        $('.button-section').on('click', '#add-bookmark', function (event) {
+          store.adding = true;
+          render();
+        });
+      }
+
     $.fn.extend({
       serializeJson: function () {
         const formData = new FormData(this[0]);
@@ -195,38 +212,7 @@ const bookmark = (function () {
         return JSON.stringify(o);
       }
     });
-  
-    //sets store.adding = true
-    function addButton() {
-      $('.button-section').on('click', '#add-bookmark', function (event) {
-        store.adding = true;
-        render();
-      });
-    }
-  
-    function render() {
-      let bookmarks2 = [...store.lists];
-  
-      if (store.minRating) {
-        bookmarks2 = bookmarks2.filter(i => i.rating >= store.minRating);
-      }
-      const bookmarkString = generateBookMarkList(bookmarks2);
-      const form = addHelper(store);
-  
-      if (store.error) {
-        const errorMessage = generateError(store.error);
-  
-        $('.error-container').html(errorMessage);
-      } else {
-        $('.error-container').empty();
-      }
-  
-  
-      $('.button-section').html(form);
-      $('.bookmark-list').html(bookmarkString);
-    }
-  
-  
+
     function eventListener() {
       handleAddBookmark();
       addButton();
@@ -234,10 +220,8 @@ const bookmark = (function () {
       handleDelete();
       handleErrorExit();
       handleDropDown();
-      handleEditRating(); // handle edit test
+      handleEditRating(); 
     }
-  
-  
     return {
       eventListener,
       render
