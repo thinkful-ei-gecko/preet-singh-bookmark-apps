@@ -9,6 +9,5 @@ $(document).ready(function() {
         items.forEach(item => {
             store.addItem(item);
         });
-    
 });
 });
