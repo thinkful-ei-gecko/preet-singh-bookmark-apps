@@ -31,7 +31,7 @@ const bookmark = (function () {
             <div aria-label="bookmark-title"data-id ="${obj.id}" class='bookmark-title'>${obj.title}</div>
             ${expandedHelper(obj)}
             <div class='star-row'>${starMaker(obj)}</div>
-        <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
+            
         </li>
         `;
       else
@@ -39,7 +39,7 @@ const bookmark = (function () {
         <li class="js-item-elem" data-id="${obj.id}">
             <div aria-label="bookmark-title" data-id ="${obj.id}" class='bookmark-title'>${obj.title}</div>
             ${expandedHelper(obj)}<br>
-        <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
+            <button aria-label="delete" class='delete-button' data-id="${obj.id}">Delete</button>
         </li>
         `;
     }
@@ -62,6 +62,16 @@ const bookmark = (function () {
         </section>
         `;
     }
+
+    // function renderError() {
+    //   if (store.error) {
+    //     const el = generateError(store.error);
+    //     $('.error').html(el);
+    //   }
+    //   else {
+    //     $('.error').empty();
+    //   }
+    // }
   
     function handleErrorExit() {
       $('.error-container').on('click', 'button', function (event) {
@@ -96,7 +106,8 @@ const bookmark = (function () {
     function expandedHelper(bookmark) {
       if (bookmark.expanded) {
         return `<div class="">${bookmark.desc}</div>
-        <div class=""><a href="${bookmark.url}" target="_blank">Visit ${bookmark.title}!</a></div> `;
+        <div class=""><a href="${bookmark.url}" target="_blank">Visit ${bookmark.title}!</a></div>
+        <div><button aria-label="delete" class='delete-button' data-id="${bookmark.id}">Delete</button></div>`;
       } else
         return '';
     }
@@ -177,7 +188,26 @@ const bookmark = (function () {
       $('.button-section').on('submit', 'form', function (event) {
         event.preventDefault();
         const newBookmark = $(event.target).serializeJson();
-  
+        // api.createBookmark(newBookmark)
+        //   .then(res => {
+        //     if (res.ok) {
+        //       return res.json();
+        //     }
+        //     throw new Error(res.statusText);
+        //   })
+        //   .then(resJson => {
+        //     let storeJson = resJson;
+        //     storeJson.adding = false;
+        //     store.addBookmark(storeJson);
+        //     $('.bookmark-list').html();
+        //     render();
+        //   })
+
+        //   .catch(err =>{
+        //     store.setError(err.message);
+        //     render();
+        //   })
+
         api.createBookmark(newBookmark)
           .then(newBookmark1 => {
             store.addBookmark(newBookmark1);
